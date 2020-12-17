@@ -1,19 +1,34 @@
 const app=()=>{
     const navbar = document.getElementById('navbar__list');
-    const sections = [...document.getElementsByTagName('section')];
-    const navBars = sections.map((section) => (section.getAttribute('data-nav')));
-    const fragment = document.createDocumentFragment();
+    const sectionContainer = document.getElementById('sections-container');
 
     /**
      * Create a NavBar on screen
      */
     const createNavBar=()=>{
+        const sections = [...document.getElementsByTagName('section')];
+        const navBars = sections.map((section) => (section.getAttribute('data-nav')));
+        const fragment = document.createDocumentFragment();
+
         navBars.forEach( (name, index) => {
             const item = createElement(navbar_item_element_prefab(name,index));
             item.addEventListener('click', scrollToSection);
             fragment.appendChild(item);
         });
         navbar.appendChild(fragment);
+    }
+
+    /**
+     * Create sections
+     * @param {number} numberSections 
+     */
+    const createSections=(numberSections)=>{
+        const fragment = document.createDocumentFragment();
+        for(let i=0;i<numberSections;i++){
+            const item = createElement(section_item_element_prefab(i+1,i==0));
+            fragment.appendChild(item);
+        }
+        sectionContainer.appendChild(fragment);
     }
 
     /**
@@ -39,6 +54,7 @@ const app=()=>{
         toogleActive('active-section',targetSection);
     }
 
-    return(createNavBar());
+    createSections(4);
+    createNavBar();
 }
 app();
