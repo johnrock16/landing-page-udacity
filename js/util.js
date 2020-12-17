@@ -1,6 +1,6 @@
 /**
  * This functions has been to make more pratice create elements
- * @param {{...HTMLElement,attribute}} buildELement 
+ * @param {{...HTMLElement,attribute,child}} buildELement 
  */
 const createElement = (buildELement) => {
     const element = document.createElement(buildELement.element);
@@ -12,6 +12,9 @@ const createElement = (buildELement) => {
             });
         }
     });
+    if(buildELement.child){
+        element.append(createElement(buildELement.child));
+    }
     return element;
 }
 
