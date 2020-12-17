@@ -2,6 +2,21 @@ const app=()=>{
     const navbar = document.getElementById('navbar__list');
     const sectionContainer = document.getElementById('sections-container');
 
+    window.addEventListener('scroll',(event)=>{
+        const sections = [...document.getElementsByTagName('section')];
+        let sectionOnScreen=null;
+        sections.forEach((section)=>{
+            if(isOnScreen(section)){
+                toogleActive('active-section',section);
+                sectionOnScreen=section.id
+            }
+        });
+        if(sectionOnScreen){
+            const linkActive = document.getElementById(`link${sectionOnScreen.match(/\d+/g).join('')}`);
+            toogleActive('active-link',linkActive);
+        }
+    })
+
     /**
      * Create a NavBar on screen
      */
@@ -41,6 +56,19 @@ const app=()=>{
         previousActive.classList.remove(elementClass);
         nextActive.classList.add(elementClass);
     }
+
+    /**
+     * verify if a determined element is on screen
+     * @param {HTMLElement} element 
+     */
+    function isOnScreen (element) {
+        const {bottom,top} = element.getBoundingClientRect();
+        const {innerHeight,innerWidth} = window;
+        const height=(innerWidth<=750)?innerHeight*2:innerHeight
+        return (
+           top >= 0 && bottom <= (height || document.documentElement.clientHeight)
+        );
+    };
     
     /**
      * Scroll to selected section
@@ -50,7 +78,6 @@ const app=()=>{
         const targetSection = document.getElementById(targetSectionId);
         const linkActive = document.getElementById(`link${targetSectionId.match(/\d+/g).join('')}`);
         targetSection.scrollIntoView({behavior: "smooth"});
-        toogleActive('active-link',linkActive);
         toogleActive('active-section',targetSection);
     }
 
