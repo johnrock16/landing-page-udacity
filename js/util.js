@@ -1,3 +1,7 @@
+/**
+ * This functions has been to make more pratice create elements
+ * @param {{...HTMLElement,attribute}} buildELement 
+ */
 const createElement = (buildELement) => {
     const element = document.createElement(buildELement.element);
     Object.keys(buildELement).forEach((key) => {
